@@ -13,6 +13,7 @@ import menuConfigs from "../../configs/menu.configs";
 import { setUser } from "../../redux/features/userSlice";
 const UserMenu = () => {
   const { user } = useSelector((state) => state.user);
+  console.log(user);
 
   const dispatch = useDispatch();
 

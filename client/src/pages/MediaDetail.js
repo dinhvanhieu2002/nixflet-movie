@@ -40,6 +40,7 @@ const MediaDetail = () => {
 
   const dispatch = useDispatch();
   const videoRef = useRef(null);
+  const movieRef = useRef(null);
   useEffect(() => {
     window.scrollTo(0, 0);
     const getMedia = async () => {
@@ -228,7 +229,7 @@ const MediaDetail = () => {
                     sx={{ width: "max-content" }}
                     size="large"
                     startIcon={<PlayArrowIcon />}
-                    onClick={() => videoRef.current.scrollIntoView()}
+                    onClick={() => movieRef.current.scrollIntoView()}
                   >
                     watch now
                   </Button>
@@ -242,6 +243,12 @@ const MediaDetail = () => {
             </Box>
           </Box>
         </Box>
+
+        {mediaType === 'movie' && <div ref={movieRef} style={{ paddingTop: "2rem" }}>
+          <Container header="Movie">
+            <MediaMovie movieId={mediaId} />
+          </Container>
+        </div>}
 
         <div ref={videoRef} style={{ paddingTop: "2rem" }}>
           <Container header="Videos">
@@ -289,6 +296,29 @@ const MediaDetail = () => {
       </Box>
     </>
   ) : null;
+};
+
+const MediaMovie = ({ movieId }) => {
+  const iframeRef = useRef();
+
+  useEffect(() => {
+    const height = (iframeRef.current.offsetWidth * 9) / 16 + "px";
+    console.log(iframeRef.current.offsetWidth)
+    iframeRef.current.setAttribute("height", height);
+  }, []);
+
+  return (
+    <Box sx={{ height: "max-content" }}>
+      <iframe
+        key={movieId}
+        src={tmdbConfigs.embedPath(movieId)}
+        ref={iframeRef}
+        width="100%"
+        title={movieId}
+        style={{ border: 0 }}
+      ></iframe>
+    </Box>
+  );
 };
 
 export default MediaDetail;
